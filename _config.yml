@@ -38,13 +38,13 @@ preferences:
 title: "volcel"
 heading: "Jack Heseltine"
 description: "Personal Blog on Spiritual, Faith and Religious Development Topics"
-url: "https://heseltime.github.io/volcel/"
+url: "https://heseltime.github.io/volcel"
 baseurl: ""
 
 # Asset Configuration
-apple_touch_icon: "/assets/img/profile.png"
-css_file: "/assets/css/style.css"
-ie_css: "/assets/css/ie-target.css"
+apple_touch_icon: "/volcel/assets/img/profile.png"
+css_file: "/volcel/assets/css/style.css"
+ie_css: "/volcel/assets/css/ie-target.css"
 
 # Menu Items
 menu:
