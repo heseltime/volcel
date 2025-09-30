@@ -38,7 +38,7 @@ preferences:
 title: "volcel"
 heading: "Jack Heseltine"
 description: "Personal Blog on Spiritual, Faith and Religious Development Topics"
-url: "https://volcel.github.io"
+url: "https://heseltime.github.io/volcel/"
 baseurl: ""
 
 # Asset Configuration
@@ -57,7 +57,7 @@ menu:
 
 # Footer
 footer:
-  copyright: "© 2024 Your Name. Contents under CC-BY-NC"
+  copyright: "© 2025 Jack Heseltine. Contents under CC-BY-NC"
   credits:
     enabled: true
     url: "/credits"
