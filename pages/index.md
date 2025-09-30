@@ -4,7 +4,7 @@
 
 layout: Post
 permalink: /
-title: vocel
+title: volcel
 ---
 
 Welcome. Notes to follow.
