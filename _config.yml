@@ -35,10 +35,10 @@ preferences:
     enabled: true
 
 # Site Configuration
-title: "Your Site Title"
-heading: "Your Name"
-description: "A brief description of your site"
-url: "https://yoursite.com"
+title: "volcel"
+heading: "Jack Heseltine"
+description: "Personal Blog on Spiritual, Faith and Religious Development Topics"
+url: "https://volcel.github.io"
 baseurl: ""
 
 # Asset Configuration
