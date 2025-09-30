@@ -49,18 +49,18 @@ ie_css: "/volcel/assets/css/ie-target.css"
 # Menu Items
 menu:
   - title: "Notes"
-    url: "/notes"
+    url: "/volcel/notes"
   - title: "Blog"
-    url: "/blog"
+    url: "/volcel/blog"
   - title: "About"
-    url: "/about"
+    url: "/volcel/about"
 
 # Footer
 footer:
-  copyright: "© 2025 Jack Heseltine. Contents under CC-BY-NC"
+  copyright: "© {{ site.time | date: '%Y' }} Jack Heseltine. Contents under CC-BY-NC"
   credits:
     enabled: true
-    url: "/credits"
+    url: "/volcel/credits"
     text: "Credits"
 
 # Collections
