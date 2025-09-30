@@ -72,14 +72,14 @@ collections:
 # Defaults
 defaults:
   - scope:
-      path: ""
+      path: "volcel/"
       type: "notes"
     values:
       layout: "Post"
       content-type: "notes"
       feed: "show"
   - scope:
-      path: ""
+      path: "volcel/"
       type: "posts"
     values:
       layout: "Post"
