@@ -39,7 +39,7 @@ title: "volcel"
 heading: "Jack Heseltine"
 description: "Personal Blog on Spiritual, Faith and Religious Development Topics"
 url: "https://heseltime.github.io/volcel"
-baseurl: ""
+baseurl: "https://heseltime.github.io/volcel"
 
 # Asset Configuration
 apple_touch_icon: "/volcel/assets/img/profile.png"
@@ -72,14 +72,14 @@ collections:
 # Defaults
 defaults:
   - scope:
-      path: "volcel/"
+      path: ""
       type: "notes"
     values:
       layout: "Post"
       content-type: "notes"
       feed: "show"
   - scope:
-      path: "volcel/"
+      path: ""
       type: "posts"
     values:
       layout: "Post"
