@@ -42,25 +42,25 @@ url: "https://heseltime.github.io/volcel"
 baseurl: "https://heseltime.github.io/volcel"
 
 # Asset Configuration
-apple_touch_icon: "/volcel/assets/img/profile.png"
-css_file: "/volcel/assets/css/style.css"
-ie_css: "/volcel/assets/css/ie-target.css"
+apple_touch_icon: "/assets/img/profile.png"
+css_file: "/assets/css/style.css"
+ie_css: "/assets/css/ie-target.css"
 
 # Menu Items
 menu:
   - title: "Notes"
-    url: "/volcel/notes"
+    url: "/notes"
   - title: "Blog"
-    url: "/volcel/blog"
+    url: "/blog"
   - title: "About"
-    url: "/volcel/about"
+    url: "/about"
 
 # Footer
 footer:
   copyright: "Jack Heseltine. Contents under CC-BY-NC"
   credits:
-    enabled: true
-    url: "/volcel/credits"
+    enabled: false
+    url: "/credits"
     text: "Credits"
 
 # Collections
