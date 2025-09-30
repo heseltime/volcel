@@ -57,7 +57,7 @@ menu:
 
 # Footer
 footer:
-  copyright: "© {{ site.time | date: '%Y' }} Jack Heseltine. Contents under CC-BY-NC"
+  copyright: "Jack Heseltine. Contents under CC-BY-NC"
   credits:
     enabled: true
     url: "/volcel/credits"

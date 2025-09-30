@@ -1,7 +1,10 @@
 <div class="footer">
+  <script>
+      document.getElementById("year").innerHTML = new Date().getFullYear();
+  </script>
   <div class="footer-left">
     <h6>
-      {{ site.footer.copyright }}
+      © <span id="year"></span> {{ site.footer.copyright }} 
       {%- if site.footer.credits.enabled -%}
           • <a href="{{ site.baseurl }}{{ site.footer.credits.url }}">{{ site.footer.credits.text }}</a>
       {%- endif -%}
