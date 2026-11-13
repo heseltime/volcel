@@ -15,7 +15,7 @@ My village, Altmünster, is named after the old abbey recorded there (somewhere 
 
 ## A bus ride
 
-In C.S. Lewis's *The Great Divorce*, a bus lifts off from a gray town where it always rains and carries its passengers to foothills so real the grass hurts their feet.[^lewis] What stays with me is the ride itself: having left one place and not yet arrived at the other, on a bus like any old bus in the world, but suddenly: other-worldly.
+In C.S. Lewis's *The Great Divorce*, a bus lifts off from a gray town where it always rains and carries its passengers to foothills so real the grass hurts their feet.[^lewis] What stays with me is the ride itself - having left one place and not yet arrived at the other, on a bus like any old bus in the world, where these ideas might spark, but suddenly: other-worldly. 
 
 So this is what these pages are for: a place between work, creative time and spiritual life, where writing has a real chance to declutter how I think about some topics, more room for creativity and inner space - in a kind of lattice structure along a horizontal "reading-model" to [[find a format::https://github.com/heseltime/volcel]] that can fit the content well.
 
