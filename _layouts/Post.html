@@ -57,7 +57,7 @@
     <link rel="alternate" type="application/rss+xml" href="{{ site.url }}/feed.xml">
 </head>
 
-<body class="garden">
+<body class="garden bg-{{ site.background | default: 'lattice-dots' }}">
     <header class="topbar">
         {%- include Nav.html -%}
     </header>

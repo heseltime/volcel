@@ -45,6 +45,9 @@ favicon: "/assets/img/favicon.svg"
 css_file: "/assets/css/style.css"
 ie_css: "/assets/css/ie-target.css"
 
+# Ground behind the panes: trellis | lattice-dots | dawn | paper | plain
+background: paper
+
 # The sun menu (top left) offers this site and, if set, a parent site.
 parent_site:
   title: "heseltime"

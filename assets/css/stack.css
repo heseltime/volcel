@@ -824,21 +824,68 @@ body.garden {
   }
 }
 
-/* (4) Trellis ground behind the panes. */
+/* (4) The ground behind the panes. Pick one with `background:` in
+   _config.yml: trellis | lattice-dots | dawn | paper | plain. */
 body.garden {
   background-color: var(--ground);
+}
+
+:root {
+  --trellis: rgba(0, 0, 0, 0.035);
+  --ground-dot: rgba(37, 71, 86, 0.16);
+  --ground-glow: rgba(143, 214, 26, 0.24);
+  --ground-cool: rgba(10, 132, 255, 0.10);
+  --ground-spark: rgba(120, 190, 20, 0.55);
+}
+
+[data-theme="dark"] {
+  --trellis: rgba(255, 255, 255, 0.035);
+  --ground-dot: rgba(255, 255, 255, 0.10);
+  --ground-glow: rgba(182, 242, 63, 0.11);
+  --ground-cool: rgba(64, 156, 255, 0.10);
+  --ground-spark: rgba(182, 242, 63, 0.45);
+}
+
+/* trellis: fine diagonal lines */
+body.bg-trellis {
   background-image:
     repeating-linear-gradient(45deg, transparent 0 23px, var(--trellis) 23px 24px),
     repeating-linear-gradient(-45deg, transparent 0 23px, var(--trellis) 23px 24px);
 }
 
-:root {
-  --trellis: rgba(0, 0, 0, 0.035);
+/* lattice-dots: only the crossing points of a lattice, a few of them lime */
+body.bg-lattice-dots {
+  background-image:
+    radial-gradient(circle, var(--ground-spark) 0 2px, transparent 2.5px),
+    radial-gradient(circle, var(--ground-dot) 0 1px, transparent 1.5px);
+  background-size: 168px 168px, 24px 24px;
+  background-position: 84px 60px, 0 0;
 }
 
-[data-theme="dark"] {
-  --trellis: rgba(255, 255, 255, 0.035);
+/* dawn: two soft washes of light, lime from the top right, blue from below */
+body.bg-dawn {
+  background-image:
+    radial-gradient(circle at 0% 0%, var(--ground-glow), transparent 55vmax),
+    radial-gradient(circle at 100% 100%, var(--ground-cool), transparent 50vmax);
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
+
+/* paper: a faint grain with a lime tint in one corner */
+body.bg-paper {
+  background-image:
+    radial-gradient(circle at 0% 0%, var(--ground-glow), transparent 40vmax),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+}
+
+[data-theme="dark"] body.bg-paper {
+  background-image:
+    radial-gradient(50rem 34rem at 0% 0%, var(--ground-glow), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* plain: nothing */
 
 /* (5) Grouped backlinks. */
 .backlinks-group {
