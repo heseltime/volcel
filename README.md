@@ -2,6 +2,8 @@
 
 Personal notes by Jack Heseltine: **https://heseltime.github.io/volcel/**
 
+The theme is published separately as **[Linzer Lattice](https://github.com/heseltime/linzer-lattice)**, so other sites can use it.
+
 ## A lattice, not a garden
 
 Published notes are usually called a *digital garden*. The word brings a shape with it: beds and paths, notes growing from seedling to evergreen, and, seen through an index, a tree of categories with a note at every leaf.
@@ -61,4 +63,4 @@ Then open http://localhost:4000; unpublished notes show with a "Hidden" banner. 
 
 ## Credits
 
-Built on [Jekyll Garden](https://github.com/Jekyll-Garden/jekyll-garden.github.io) (MIT), after [Simply Jekyll](https://github.com/raghudotcc/simply-jekyll). The reading model follows [Andy Matuschak's notes](https://notes.andymatuschak.org/); no code was taken from them. Code is MIT (see `LICENSE`). Notes are © Jack Heseltine, CC BY-NC 4.0.
+The theme lives on as [Linzer Lattice](https://github.com/heseltime/linzer-lattice). Built on [Jekyll Garden](https://github.com/Jekyll-Garden/jekyll-garden.github.io) (MIT), after [Simply Jekyll](https://github.com/raghudotcc/simply-jekyll). The reading model follows [Andy Matuschak's notes](https://notes.andymatuschak.org/); no code was taken from them. Code is MIT (see `LICENSE`). Notes are © Jack Heseltine, CC BY-NC 4.0.

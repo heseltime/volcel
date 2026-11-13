@@ -21,7 +21,7 @@ So this is what these pages are for: a place between work, creative time and spi
 
 My current day job and this inner work ask similar questions. What is signal and what is noise? Where does attention actually go? And could the habits of observability (instrument, look, simplify, look again) help declutter a life, or would that just add another dashboard? That thread starts at [[Observability for Inner Space]].
 
-The technical theme for this blog will be made available as a template when I get round to it/by popular demand. See contact detaily on my homepage.
+The technical theme for this blog is now available as [[Linzer Lattice::https://github.com/heseltime/linzer-lattice]], a free Jekyll theme; contact details are on my homepage.
 
 [^road]: Education: Sarah Lawrence College for literature and film, then software engineering in Hagenberg and an AI master's at JKU Linz/Professional: Red Cross blood bank and Wolfram Research (now Dynatrace) next to university positions.
 [^khg]: Catholic dormitory and community in Linz, see also my [[own reflection on life there::https://heseltime.github.io/khg]].
