@@ -46,6 +46,19 @@ A **thread** is what you read from a topic, pane by pane. Topics run one way and
 
 Hover the sun (top left) to choose between this site and heseltime.github.io.
 
+### Sketches
+
+Line drawings live in `_includes/sketches/*.svg` and go into a note with
+
+```html
+<figure class="sketch">
+{% include sketches/great-divorce-bus.svg %}
+<figcaption>Caption.</figcaption>
+</figure>
+```
+
+Style: one ink colour (`stroke="currentColor"`, navy in light mode, pale in dark), two line weights (2.5 for outlines, 1.25 for detail and hatching), round caps and joins, no fills. The only colour is the light: shapes with `class="sketch-light"` (fill) or `sketch-light-line` (stroke) use the lime of the sun logo. Shade with short parallel hatching, not grey. Keep a `<title>` and `<desc>` for screen readers, and no blank lines inside the SVG (Markdown would split it).
+
 ### Hiding notes and pages
 
 | How | Effect |

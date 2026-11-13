@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <script>
+      // Set the theme before anything paints, so dark mode doesn't flash light.
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem("theme"); } catch (e) { /* private mode */ }
+        if (t !== "dark" && t !== "light") t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="{{ site.title | default: site.heading }}" property="og:site_name" />
     <meta content="{{ site.description | default: 'A Jekyll Garden site' }}" property="og:description">
