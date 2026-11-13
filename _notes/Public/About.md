@@ -9,7 +9,7 @@ I'm a software engineer at Dynatrace, working in observability: making large, bu
 
 ## Why "volcel"
 
-Short for *voluntarily celibate*, meant lightly. It points at a journey toward a religious community and a life that takes prayer and work equally seriously, informed by the university prototype of such a community.[^khg] I don't know yet where it ends; this is one place where I walk it out loud: the Jesuit[^jesuits] novitioate is currently likely and will be documented here if/when we get there.
+Short for *voluntarily celibate*, meant lightly. It points at a journey toward a religious community and a life that takes prayer and work equally seriously, informed by the university prototype of such a community.[^khg] I don't know yet where it ends; this is one place where I walk it out loud: the Jesuit[^jesuits] novitiate is currently likely and will be documented here if/when we get there.
 
 My village, Altmünster, is named after the old abbey recorded there (somewhere in Upper Austria, central Europe) already in 909, and its church is dedicated to St. Benedict.[^minster] Along the shore of a cold, deep lake at the foot of the alps is Traunkirchen, where the Jesuits held the old convent from 1622 until 1773. A current teaching engagement for high schoolers brings me there more often again, just go to my home page for more details/if interested.
 
