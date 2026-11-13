@@ -1,0 +1,36 @@
+{%- comment -%}
+  Site data for the browser: every note with its topic settings and the titles
+  it links to with [[...]] (external [[Label::url]] links left out). wikilinks.js,
+  lattice.js and stack.js read it. Written as a JS literal, so trailing commas
+  are fine.
+{%- endcomment -%}
+<script>
+  window.GARDEN = {
+    base: {{ site.baseurl | default: "" | jsonify }},
+    privateMsg: {{ site.privatelinks.msg | default: "This note hasn't been published yet." | jsonify }},
+    notes: [
+      {%- for note in site.notes -%}
+      {%- assign parts = note.content | split: "[[" -%}
+      {
+        "title": {{ note.title | jsonify }},
+        "url": {{ site.baseurl | append: note.url | jsonify }},
+        "hidden": {% if note.published == false %}true{% else %}false{% endif %},
+        "topic": {% if note.topic %}true{% else %}false{% endif %},
+        "order": {{ note.order | default: 999 }},
+        "label": {{ note.label | default: note.title | jsonify }},
+        "emoji": {{ note.emoji | default: "" | jsonify }},
+        "date": {% if note.date == site.time %}""{% else %}{{ note.date | date: "%Y-%m-%d" | jsonify }}{% endif %},
+        "links": [
+          {%- for part in parts offset: 1 -%}
+            {%- assign inner = part | split: "]]" | first -%}
+            {%- if inner contains "::" -%}{%- continue -%}{%- endif -%}
+            {%- assign target = inner | split: "\|" | first | split: "|" | first | split: "#" | first | strip -%}
+            {{ target | jsonify }},
+          {%- endfor -%}
+        ],
+        "excerpt": {{ note.content | strip_html | normalize_whitespace | truncatewords: 20 | jsonify | replace: "</", "<\/" }}
+      }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  };
+</script>

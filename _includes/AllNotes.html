@@ -1,0 +1,25 @@
+{%- comment -%}
+  Every note, newest first by front-matter `date`; undated notes last,
+  alphabetically. lattice.js replaces this list with the lattice (same order,
+  plus a column per topic); the list is what shows without JavaScript.
+{%- endcomment -%}
+<div class="lattice-view" aria-live="polite"></div>
+<ul class="all-notes">
+  {%- assign by_date = site.notes | sort: "date" | reverse -%}
+  {%- for note in by_date -%}
+    {%- if note.date == site.time -%}{%- continue -%}{%- endif -%}
+  <li class="all-notes-item">
+    <a href="{{ site.baseurl }}{{ note.url }}">{%- if note.topic and note.emoji -%}<span class="note-emoji">{{ note.emoji }}</span> {% endif -%}{{ note.title }}</a>
+    {%- if note.topic -%}<span class="all-notes-topic">topic</span>{%- endif -%}
+    <time datetime="{{ note.date | date_to_xmlschema }}">{{ note.date | date: "%-d %b %Y" }}</time>
+  </li>
+  {%- endfor -%}
+  {%- assign by_title = site.notes | sort: "title" -%}
+  {%- for note in by_title -%}
+    {%- unless note.date == site.time -%}{%- continue -%}{%- endunless -%}
+  <li class="all-notes-item is-undated">
+    <a href="{{ site.baseurl }}{{ note.url }}">{%- if note.topic and note.emoji -%}<span class="note-emoji">{{ note.emoji }}</span> {% endif -%}{{ note.title }}</a>
+    {%- if note.topic -%}<span class="all-notes-topic">topic</span>{%- endif -%}
+  </li>
+  {%- endfor -%}
+</ul>

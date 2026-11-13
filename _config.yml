@@ -23,8 +23,6 @@
 
 # Preferences (controls template behavior)
 preferences:
-  homepage:
-    enabled: false
   search:
     enabled: true
   backlinks:
@@ -42,18 +40,12 @@ url: "https://heseltime.github.io/volcel"
 baseurl: "https://heseltime.github.io/volcel"
 
 # Asset Configuration
-apple_touch_icon: "/assets/img/profile.png"
+apple_touch_icon: "/assets/img/apple-touch-icon.png"
+favicon: "/assets/img/favicon.svg"
 css_file: "/assets/css/style.css"
 ie_css: "/assets/css/ie-target.css"
 
-# Menu Items
-menu:
-  - title: "Notes"
-    url: "/notes"
-  - title: "Blog"
-    url: "/blog"
-  - title: "About"
-    url: "/about"
+# Menu: the top bar lists notes with `topic: true` (see _includes/Nav.html).
 
 # Footer
 footer:
@@ -101,7 +93,9 @@ privatelinks:
 katex: true
 
 # Exclude from processing
+# _notes/Private: notes that never leave this machine (also git-ignored).
 exclude:
+  - _notes/Private
   - Gemfile
   - Gemfile.lock
   - node_modules

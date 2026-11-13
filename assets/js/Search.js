@@ -74,7 +74,7 @@
     }
 
     function searchInit() {
-        var dataUrl = "/SearchData.json";
+        var dataUrl = ((window.GARDEN && window.GARDEN.base) || "") + "/SearchData.json";
 
         getSearchData(dataUrl)
             .then(function(responseText) {

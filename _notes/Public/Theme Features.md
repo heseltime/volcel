@@ -1,10 +1,11 @@
 ---
+published: false
 title: Theme Features
 feed: show
 date: 2024-01-15
 ---
 
-Jekyll Garden comes with several features that make it easy to create and navigate your digital garden.
+Jekyll Garden comes with several features that make it easy to create and navigate your digital garden. The biggest one is the reading model: links open as [[Stacked Notes]], side by side.
 
 ## Wiki-Style Links
 Connect your notes using `[[note title]]` syntax, just like in Obsidian. Links are created automatically and work seamlessly across your site.

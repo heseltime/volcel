@@ -1,56 +1,64 @@
-{%- assign link_count = 0 -%}
-{%- assign wiki_link_title = '[' | append: page.title | append: ']' -%}
-{%- for note in site.notes -%}
-        {%- if note.url != page.url -%}
-            {%- if note.content contains wiki_link_title -%}
-                {%- assign link_count = link_count | plus:1 -%}
-            {%- endif -%}
+{%- comment -%}
+  "Links to this note": every note, post or page whose Markdown contains
+  [[This Title]], [[This Title\|label]] or [[This Title#Heading]], with the paragraph the link sits in.
+  Built at compile time, so it also shows up in panes opened by stack.js.
+{%- endcomment -%}
+{%- assign plain_link = '[[' | append: page.title | append: ']]' -%}
+{%- assign alias_link = '[[' | append: page.title | append: '|' -%}
+{%- assign escaped_link = '[[' | append: page.title | append: '\|' -%}
+{%- assign heading_link = '[[' | append: page.title | append: '#' -%}
+{%- assign curly_title = page.title | replace: "'", "’" -%}
+{%- assign curly_link = '[[' | append: curly_title | append: ']]' -%}
+{%- capture para_break %}
+
+{% endcapture -%}
+{%- assign sources = site.notes | concat: site.posts | concat: site.pages -%}
+{%- comment -%}
+  Grouped in two: topics that link here (the lines this note sits on) and
+  ordinary notes (its neighbours).
+{%- endcomment -%}
+{%- assign topic_items = "" -%}
+{%- assign note_items = "" -%}
+{%- for note in sources -%}
+  {%- if note.url == page.url -%}{%- continue -%}{%- endif -%}
+  {%- unless note.content contains plain_link or note.content contains alias_link or note.content contains escaped_link or note.content contains heading_link or note.content contains curly_link -%}{%- continue -%}{%- endunless -%}
+  {%- assign context = "" -%}
+  {%- assign paragraphs = note.content | split: para_break -%}
+  {%- for p in paragraphs -%}
+    {%- if p contains plain_link or p contains alias_link or p contains escaped_link or p contains heading_link or p contains curly_link -%}
+      {%- assign context = p -%}
+      {%- break -%}
     {%- endif -%}
-{%- endfor -%}
-{%- for note in site.posts -%}
-        {%- if note.url != page.url -%}
-            {%- if note.content contains wiki_link_title -%}
-                {%- assign link_count = link_count | plus:1 -%}
-            {%- endif -%}
+  {%- endfor -%}
+  {%- comment -%} Drop the URL half of external links: [[Label::https://…]] → [[Label]] {%- endcomment -%}
+  {%- if context contains "::" -%}
+    {%- assign bits = context | split: "::" -%}
+    {%- capture context -%}{%- for b in bits -%}{%- if forloop.first -%}{{ b }}{%- else -%}{%- assign rest = b | split: "]]" -%}{%- for r in rest offset: 1 -%}]]{{ r }}{%- endfor -%}{%- endif -%}{%- endfor -%}{%- endcapture -%}
+  {%- endif -%}
+  {%- capture item -%}
+  <li class="backlink">
+    <a class="backlink-title" href="{{ site.baseurl }}{{ note.url }}">{%- if note.topic and note.emoji -%}<span class="note-emoji">{{ note.emoji }}</span> {% endif -%}{{ note.title }}</a>
+    {%- if context != "" -%}
+    <p class="backlink-context">{{ context | replace: "[[", "" | replace: "]]", "" | replace: "\|", " · " | markdownify | strip_html | normalize_whitespace | truncate: 240 }}</p>
     {%- endif -%}
+  </li>
+  {%- endcapture -%}
+  {%- if note.topic -%}
+    {%- assign topic_items = topic_items | append: item -%}
+  {%- else -%}
+    {%- assign note_items = note_items | append: item -%}
+  {%- endif -%}
 {%- endfor -%}
-{%- for note in site.pages -%}
-        {%- if note.url != page.url -%}
-            {%- if note.content contains wiki_link_title -%}
-                {%- assign link_count = link_count | plus:1 -%}
-            {%- endif -%}
-    {%- endif -%}
-{%- endfor -%}
-{%- if link_count > 0 -%}
-{%- assign wiki_link_title = '[' | append: page.title | append: ']' -%}
-{%- assign display_class = 'hide' -%}
-{%- if site.preferences.backlinks.enabled -%}
-{%- assign display_class = 'show' -%}
-{%- endif -%}
-<div class="links-section {{display_class}}" id="jekyll-seamless-backlinks">
+{%- if topic_items != "" or note_items != "" -%}
+<section class="links-section" id="jekyll-seamless-backlinks">
     <h6>Links to this note</h6>
-    <ul class="links-grid">
-        {%- for note in site.notes -%}
-        {%- if note.url != page.url -%}
-            {%- if note.content contains wiki_link_title -%}
-            <li><a href="{{ site.baseurl }}{{note.url}}">{{ note.title }}</a></li>
-            {%- endif -%}
-        {%- endif -%}
-        {%- endfor -%}
-        {%- for note in site.posts -%}
-        {%- if note.url != page.url -%}
-            {%- if note.content contains wiki_link_title -%}
-            <li><a href="{{ site.baseurl }}{{note.url}}">{{ note.title }}</a></li>
-            {%- endif -%}
-        {%- endif -%}
-        {%- endfor -%}
-        {%- for note in site.pages -%}
-        {%- if note.url != page.url -%}
-            {%- if note.content contains wiki_link_title -%}
-            <li><a href="{{ site.baseurl }}{{note.url}}">{{ note.title }}</a></li>
-            {%- endif -%}
-        {%- endif -%}
-        {%- endfor -%}
-    </ul>
-</div>
+    {%- if topic_items != "" -%}
+    <p class="backlinks-group">On these topics</p>
+    <ul class="backlinks backlinks-topics">{{ topic_items }}</ul>
+    {%- endif -%}
+    {%- if note_items != "" -%}
+    {%- if topic_items != "" -%}<p class="backlinks-group">From other notes</p>{%- endif -%}
+    <ul class="backlinks">{{ note_items }}</ul>
+    {%- endif -%}
+</section>
 {%- endif -%}

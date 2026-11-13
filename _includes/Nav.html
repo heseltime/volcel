@@ -1,50 +1,23 @@
+{%- comment -%}
+  Top bar: the sun (hover for volcel / heseltime), the site name (home = All
+  notes), then one link per topic. A topic is any note with `topic: true`;
+  `order:` sets its place (lower first, unordered last), `label:` its text and
+  `emoji:` its mark (emojis are for topics only). Below the bar, lattice.js draws the current thread.
+{%- endcomment -%}
+{%- assign topics = site.notes | where: "topic", true | sort: "order", "last" -%}
 <nav class="nav">
-  <div class="nav-left">
-    <a href="https://heseltime.github.io/">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <rect x="8" y="8" width="16" height="16" rx="4" />
-      </svg>
-    </a>
-  </div>
-
-  <a href="{{ site.baseurl }}/"><img width=64 height=64 src="{{ site.baseurl }}/assets/img/logo-draft.png" alt="volcel"> </a>
-  
-  <div class="nav-right">
-    <div class="dropdown">
-      <div class="hamburger">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 6H21M3 12H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="dropdown-menu">
-        {%- if site.menu -%}
-          {%- for item in site.menu -%}
-            <a href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
-          {%- endfor -%}
-        {%- else -%}
-          <a href="{{ site.baseurl }}/">About</a>
-          <a href="{{ site.baseurl }}/notes">Notes</a>
-          <a href="{{ site.baseurl }}/about">About</a>
-        {%- endif -%}
-      </div>
+  <div class="nav-home">
+    <a class="nav-logo" href="{{ site.baseurl }}/" aria-label="{{ site.title }}: choose where to go" aria-haspopup="true"><img width="32" height="32" src="{{ site.baseurl }}/assets/img/volcel-badge.svg" alt=""></a>
+    <div class="nav-home-menu" role="menu">
+      <a role="menuitem" href="{{ site.baseurl }}/"><img width="16" height="16" src="{{ site.baseurl }}/assets/img/favicon.svg" alt=""> {{ site.title }} <span class="nav-home-hint">all notes</span></a>
+      <a role="menuitem" href="https://heseltime.github.io/"><img width="16" height="16" src="https://heseltime.github.io/assets/img/favicon-32x32.png" alt=""> heseltime <span class="nav-home-hint">home page</span></a>
     </div>
   </div>
+  <a class="nav-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+  <div class="nav-topics">
+    {%- for t in topics -%}
+    <a class="nav-topic{% if page.url == t.url %} is-current{% endif %}" href="{{ site.baseurl }}{{ t.url }}">{%- if t.emoji -%}<span class="note-emoji">{{ t.emoji }}</span> {% endif -%}{{ t.label | default: t.title }}</a>
+    {%- endfor -%}
+  </div>
 </nav>
-
-<script>
-  const hamburger = document.querySelector('.hamburger');
-  const dropdown = document.querySelector('.dropdown');
-  
-  hamburger.addEventListener('click', function(e) {
-    e.stopPropagation();
-    this.classList.toggle('active');
-    dropdown.classList.toggle('active');
-  });
-  
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.dropdown')) {
-      hamburger.classList.remove('active');
-      dropdown.classList.remove('active');
-    }
-  });
-</script>
+<div class="thread-line" aria-hidden="true"></div>
