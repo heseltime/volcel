@@ -1,5 +1,5 @@
 {%- comment -%}
-  Top bar: the sun (hover for volcel / heseltime), the site name (home = All
+  Top bar: the sun (hover: this site, or `parent_site` from _config.yml), the site name (home = All
   notes), then one link per topic. A topic is any note with `topic: true`;
   `order:` sets its place (lower first, unordered last), `label:` its text and
   `emoji:` its mark (emojis are for topics only). Below the bar, lattice.js draws the current thread.
@@ -10,7 +10,9 @@
     <a class="nav-logo" href="{{ site.baseurl }}/" aria-label="{{ site.title }}: choose where to go" aria-haspopup="true"><img width="32" height="32" src="{{ site.baseurl }}/assets/img/volcel-badge.svg" alt=""></a>
     <div class="nav-home-menu" role="menu">
       <a role="menuitem" href="{{ site.baseurl }}/"><img width="16" height="16" src="{{ site.baseurl }}/assets/img/favicon.svg" alt=""> {{ site.title }} <span class="nav-home-hint">all notes</span></a>
-      <a role="menuitem" href="https://heseltime.github.io/"><img width="16" height="16" src="https://heseltime.github.io/assets/img/favicon-32x32.png" alt=""> heseltime <span class="nav-home-hint">home page</span></a>
+      {%- if site.parent_site.url -%}
+      <a role="menuitem" href="{{ site.parent_site.url }}">{%- if site.parent_site.icon -%}<img width="16" height="16" src="{{ site.parent_site.icon }}" alt="">{%- endif %} {{ site.parent_site.title }} <span class="nav-home-hint">{{ site.parent_site.hint | default: "home page" }}</span></a>
+      {%- endif -%}
     </div>
   </div>
   <a class="nav-title" href="{{ site.baseurl }}/">{{ site.title }}</a>

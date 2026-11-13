@@ -45,6 +45,13 @@ favicon: "/assets/img/favicon.svg"
 css_file: "/assets/css/style.css"
 ie_css: "/assets/css/ie-target.css"
 
+# The sun menu (top left) offers this site and, if set, a parent site.
+parent_site:
+  title: "heseltime"
+  url: "https://heseltime.github.io/"
+  icon: "https://heseltime.github.io/assets/img/favicon-32x32.png"
+  hint: "home page"
+
 # Menu: the top bar lists notes with `topic: true` (see _includes/Nav.html).
 
 # Footer

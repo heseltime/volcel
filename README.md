@@ -1,29 +1,64 @@
-# Jekyll Garden
-![screenshot](https://github.com/user-attachments/assets/f5752b1a-eb11-4385-a2ad-09f0e698ad30)
-A simple Jekyll theme that turns your Obsidian notes into a beautiful website. Perfect for sharing your thoughts and knowledge online. If you use Obsidian for note-taking, this theme makes it easy to publish your markdown files as a connected website with wiki-style links and full-text search.
+# volcel
 
+Personal notes by Jack Heseltine, live at **https://heseltime.github.io/volcel/**.
 
-### What it does
+It's a Jekyll site for linked Markdown notes that reads like [Andy Matuschak's working notes](https://notes.andymatuschak.org/). Following a link opens the note as a new pane to the right, so a reading session is a path left to right, not a walk up and down a tree. Topics run one way, threads of reading run across them, and the home page draws the whole thing as a lattice.
 
-Jekyll Garden connects your notes together with simple `[[note title]]` links, just like in Obsidian. You can find any note quickly with the built-in search that works as you type. The design focuses on your content with a clean, minimal look that works great on phones, tablets, and computers. Choose between dark and light themes, and when you want to write traditional blog posts, you can do that too. The theme also supports mathematical expressions if you need to write equations.
+Built on [Jekyll Garden](https://github.com/Jekyll-Garden/jekyll-garden.github.io) (MIT). The notes themselves are © Jack Heseltine, CC BY-NC.
 
-## Stacked notes
+## Contents
 
-On screens 800px and wider, following a link to a note or post opens it as a new pane to the right, in the style of [Andy Matuschak's notes](https://notes.andymatuschak.org/). Following a different link from an earlier pane drops the panes to its right, so a reading session branches left to right instead of going back up a tree. Older panes collapse to a vertical title spine; the open panes are kept in the URL (`?stackedNotes=notes/a&stackedNotes=notes/b`). Narrow screens navigate page by page as before.
+- [How it reads](#how-it-reads)
+- [Writing notes](#writing-notes)
+- [Topics, threads and the lattice](#topics-threads-and-the-lattice)
+- [Hiding notes](#hiding-notes)
+- [Sketches](#sketches)
+- [Local preview](#local-preview)
+- [Publishing](#publishing)
+- [Using this as your own site](#using-this-as-your-own-site)
+- [Code map](#code-map)
 
-Notes stay plain Markdown:
+## How it reads
 
-| Write | Result |
+- **Panes.** On screens 800px and wider, a link to a note opens it as a new pane on the right. Follow a different link from an earlier pane and everything to its right closes, so the path branches. Older panes slide under newer ones and collapse to a spine with the title written vertically; click a spine to bring the pane back. Narrow screens navigate page by page.
+- **Shareable paths.** The open panes are kept in the URL (`?stackedNotes=notes/a&stackedNotes=notes/b`), so a path can be linked, and the back button walks it.
+- **Home.** All notes, newest first, drawn as the lattice. About unfolds next to it on arrival.
+- **Top bar.** The sun (hover it to pick this site or the parent site), the site name (home), the topics, and a light/dark switch on the right. The theme follows the system setting until the reader picks one.
+- **Margin notes.** Markdown footnotes appear in the right margin next to their sentence, and as a list at the end on phones.
+- **Links to this note.** The end of every note lists the notes that link to it, each with the paragraph the link sits in, grouped into *On these topics* and *From other notes*.
+
+## Writing notes
+
+Notes are plain Markdown files in `_notes/Public/`, the same files you'd edit in Obsidian:
+
+```markdown
+---
+title: Why Books Don't Work
+date: 2026-11-13
+---
+
+Text with a [[Wiki Link]], a [[Wiki Link\|custom label]], a [[Note#Heading]]
+and an external [[Label::https://example.com]] link.
+
+A claim that needs an aside.[^why]
+
+[^why]: This shows up in the right margin.
+```
+
+| Syntax | Result |
 |:--|:--|
-| `[[Note Title]]` | link to a note (opens a pane) |
-| `[[Note Title\|label]]` | link with custom text; escape the pipe so Markdown doesn't read it as a table |
-| `[[Note Title#Heading]]` | link to a heading |
-| `[[Label::https://example.com]]` | external link |
-| `Claim.[^id]` + `[^id]: aside` | margin note in the right-hand column (footnote list on phones) |
+| `[[Note Title]]` | link to a note; opens a pane |
+| `[[Note Title\|label]]` | link with custom text. Escape the pipe, or Markdown reads the line as a table. |
+| `[[Note Title#Heading]]` | link to a heading in a note |
+| `[[Label::https://…]]` | external link, opens in a new tab |
+| `Claim.[^id]` + `[^id]: aside` | margin note |
+| `$x = y$`, `$$…$$` | math (KaTeX) |
 
-### Topics, threads and the lattice
+Titles are matched without regard to case or curly quotes. A link to a note that isn't published shows as plain text and becomes a link once the note is published.
 
-There is no notes/blog split: everything is a note in `_notes/`. The home page is **All notes**: search, then every note newest first by `date` (undated last), drawn as a lattice. A **topic** is a note that starts reading paths; it gets a link in the top bar:
+## Topics, threads and the lattice
+
+There is no notes/blog split; everything is a note. A **topic** is a note that starts reading paths, and it gets a link in the top bar:
 
 ```yaml
 ---
@@ -36,19 +71,27 @@ date: 2026-11-13
 ---
 ```
 
-A **thread** is what you read from a topic, pane by pane. Topics run one way and threads run across them, so the site is drawn as a lattice, all derived from the `[[links]]`, no extra markup:
+A **thread** is what you read from a topic, pane by pane. The lattice is worked out from the `[[links]]` alone; nothing else needs marking:
 
-- under each note's title, the topics that reach it (directly, or two links away, shown lighter);
-- All notes itself: one row per note with its date, one column per topic, a dot where they cross;
-- a thin line under the top bar with one tick per open pane, blue where that note crosses a topic;
-- "Links to this note" split into *On these topics* and *From other notes*;
-- a faint trellis pattern behind the panes.
+- **Crossings:** under each note's title, the topics that reach it, either directly or two links away (shown lighter).
+- **All notes:** one row per note with its date, one column per topic, ● for a direct link, ○ for two steps.
+- **Thread line:** a thin line under the top bar, one tick per open pane, blue where that note crosses a topic.
+- **Trellis:** a faint pattern behind the panes.
 
-Hover the sun (top left) to choose between this site and heseltime.github.io.
+Front matter for special pages: `all_notes: true` renders a page as the lattice (used by `pages/notes.md`, the home page), and `unfold: notes/about` opens that note beside the page on arrival.
 
-### Sketches
+## Hiding notes
 
-Line drawings live in `_includes/sketches/*.svg` and go into a note with
+| How | Effect |
+|:--|:--|
+| `published: false` in front matter | not built, so not on the site. **The file is still public in the repository.** |
+| file in `_notes/Private/` | never built and git-ignored, so it stays on your machine |
+
+The local preview builds `published: false` notes with a "Hidden" banner so you can read them.
+
+## Sketches
+
+Line drawings live in `_includes/sketches/*.svg` and go into a note like this:
 
 ```html
 <figure class="sketch">
@@ -57,109 +100,83 @@ Line drawings live in `_includes/sketches/*.svg` and go into a note with
 </figure>
 ```
 
-Style: one ink colour (`stroke="currentColor"`, navy in light mode, pale in dark), two line weights (2.5 for outlines, 1.25 for detail and hatching), round caps and joins, no fills. The only colour is the light: shapes with `class="sketch-light"` (fill) or `sketch-light-line` (stroke) use the lime of the sun logo. Shade with short parallel hatching, not grey. Keep a `<title>` and `<desc>` for screen readers, and no blank lines inside the SVG (Markdown would split it).
+The style:
+- one ink colour (`stroke="currentColor"`: navy in light mode, pale in dark);
+- two line weights: 2.5 for outlines, 1.25 for detail and hatching;
+- round caps and joins, no fills;
+- one colour, for light only: shapes with `class="sketch-light"` (fill) or `sketch-light-line` (stroke) use the lime of the sun logo;
+- shading by short parallel hatching, never grey.
 
-### Hiding notes and pages
+Keep a `<title>` and `<desc>` in each SVG for screen readers, and no blank lines inside it, or Markdown will split it.
 
-| How | Effect |
-|:--|:--|
-| `published: false` in front matter | not built, so not on the site. **The file is still public in the repo.** |
-| file in `_notes/Private/` | never built and git-ignored: stays on this machine |
+## Local preview
 
-Link to hidden or not-yet-written notes as usual. On the site those links show as plain text with a hint ("This note hasn't been published yet.", from `privatelinks` in `_config.yml`) and turn into real links once the note is published. The local preview below builds `published: false` notes with a "Hidden" banner so you can read them.
-
-Every note ends with **Links to this note**: each note that links to it, with the paragraph the link sits in.
-
-Code: `assets/js/stack.js` (panes), `assets/js/wikilinks.js` (links, previews), `assets/js/sidenotes.js` (margin notes), `assets/css/stack.css` (layout and colors), `_includes/Backlinks.html`. Try it with the `Stacked Notes` note.
-
-### Local preview
+You need Docker. Ruby isn't required.
 
 ```bash
 docker run --rm -p 4000:4000 -v "$PWD":/srv/site -w /srv/site ruby:3.1.1-alpine3.15 \
   sh -c "apk add --no-cache build-base && gem install bundler:2.4.22 && bundle install && bundle exec jekyll serve --host 0.0.0.0 --config _config.yml,debug.yml --unpublished"
 ```
 
-## Getting Started
+Open http://localhost:4000. `debug.yml` points links at localhost, and `--unpublished` shows drafts. Restart after changing `_config.yml`.
 
-Getting started is straightforward. First, download this theme to your computer. Then edit the settings in the `_config.yml` file with your website information. Add your notes to the `_notes` folder, and finally deploy to GitHub Pages, Netlify, or any web hosting service.
+## Publishing
 
-## Basic Setup
+Push to `main`. GitHub Pages builds the site from `main` with its own Jekyll 3.10, which ignores the `Gemfile` and custom plugins. Everything here runs on both 3.10 and the Jekyll 4 used locally.
 
-Edit `_config.yml` with your information:
+## Using this as your own site
 
-```yaml
-title: "My Website"
-heading: "Your Name"
-description: "A brief description of your site"
-url: "https://yoursite.com"
+The repository is both a theme and my notes. To start your own:
+
+1. **Copy it.** Use GitHub's **Use this template** button if it's shown, or **Fork** if you want to pull theme changes later (see below).
+2. **Clear the notes.** Delete everything in `_notes/Public/` and write an `About.md`.
+3. **Set `_config.yml`:**
+   - `title`, `heading`, `description`;
+   - `url` and `baseurl`: for a project site `https://<you>.github.io/<repo>`, or `url` = your domain and `baseurl` = `""`;
+   - `parent_site`: the second entry in the sun menu; remove it if you don't want one;
+   - `footer.copyright`.
+4. **Replace the images** in `assets/img/`: `favicon.svg`, `volcel-badge.svg` (the top-left sun) and `apple-touch-icon.png`.
+5. **Set the home page.** In `pages/notes.md`, set `unfold:` to your About note, or remove it.
+6. **Publish.** Settings → Pages → deploy from `main` / root.
+
+**Fork or template?**
+
+| | Fork | Template |
+|:--|:--|:--|
+| Theme updates later | yes: `git pull upstream main` | no, copy changes by hand |
+| History | shares mine | clean start |
+| Can be private | no; forks of public repos stay public | yes |
+| Merge conflicts | in the notes, if you pull | none |
+
+If you fork, add the upstream once and pull theme updates from it:
+
+```bash
+git remote add upstream https://github.com/heseltime/volcel.git
+git pull upstream main
 ```
 
-### Deployment Options
+Your notes and mine live in different files, so conflicts stay small. The longer-term plan is a separate theme repository that sites load with `remote_theme:`, which GitHub Pages supports; then a fork would hold only notes.
 
-You can deploy your site to a subdomain (like `notes.yoursite.com`) or a subdirectory (like `yoursite.com/notes`):
+## Code map
 
-**For subdomains:**
-```yaml
-url: "https://notes.yoursite.com"
-baseurl: ""
-```
+| File | What it does |
+|:--|:--|
+| `assets/js/stack.js` | panes, the URL state, collapsing, unfolding |
+| `assets/js/wikilinks.js` | `[[links]]`, hover previews, links to unpublished notes |
+| `assets/js/sidenotes.js` | footnotes into margin notes |
+| `assets/js/lattice.js` | crossings, the All notes lattice, the thread line |
+| `assets/css/stack.css` | layout, colours, dark mode, everything above |
+| `_includes/GardenData.html` | the note and link data the scripts read |
+| `_includes/Backlinks.html` | "Links to this note", with context and grouping |
+| `_includes/Nav.html` | top bar, sun menu, theme switch |
+| `_layouts/Post.html` | page shell; notes, All notes and static pages |
 
-**For subdirectories:**
-```yaml
-url: "https://yoursite.com"
-baseurl: "/notes"
-```
+## Credits
 
-See `SUBDOMAIN_SETUP.md` for more details.
-
-## Writing Notes
-
-### Creating a Note
-
-Each note is just a markdown file with a title. You write your content in markdown format, just like you would in Obsidian or any other markdown editor.
-
-```yaml
----
-title: "My First Note"
-date: 2025-01-15
----
-```
-
-## Features
-
-### Linking Notes Together
-Connect your notes by using `[[note title]]` to link to other notes. This creates the same kind of connections you're used to in Obsidian, but now they work on your website too.
-
-
-### Simple Linking
-The linking system works just like Obsidian. Write `[[note title]]` and the links are created automatically. When you hover over a link, you'll see a preview of the connected note.
-
-### Search
-Finding content is easy with the built-in search. It searches through all your notes instantly as you type, looking at both titles and content to help you find exactly what you need.
-
-### Backlinks
-See which notes link to the current one you're reading. This helps you discover related content and explore the connections between your ideas, just like the backlinks feature in Obsidian.
-
-### Math
-If you need to write mathematical expressions, the theme supports it. Use `$x = y$` for inline math and `$$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$` for complex equations.
-
-## How to Publishing Your Site
-
-### GitHub Pages (Free)
-GitHub Pages is the easiest way to get started. Upload your files to GitHub, enable GitHub Pages in the repository settings, and your site goes live automatically.
-
-### Netlify (Free)
-Netlify is another great option. Connect your GitHub repository to Netlify, and it will build and host your site. Every time you update your files, your site updates automatically.
-
-### Local Testing
-Test your site locally before publishing. Run `bundle install` to install dependencies, then `bundle exec jekyll serve` to start a local server and see your site in action.
-
-### Customization
-Change the look of your site by editing the `assets/css/style.css` file. You can modify colors, fonts, and other visual elements to match your preferences. If you want to customize the layout, you can modify files in the `_layouts/` folder. Add your own CSS and JavaScript as needed, but remember to keep it simple.
-
-## Contributing
-Found a bug or have an idea for improvement? Contributions are welcome. Fork the repository, make your changes, and submit a pull request.
+- Theme base: [Jekyll Garden](https://github.com/Jekyll-Garden/jekyll-garden.github.io), MIT, after [Simply Jekyll](https://github.com/raghudotcc/simply-jekyll) by Raghuveer S.
+- Reading model: [Andy Matuschak's notes](https://notes.andymatuschak.org/). No code was taken; the site's code isn't public.
+- Search: [Lunr](https://lunrjs.com/); math: [KaTeX](https://katex.org/).
 
 ## License
 
-MIT License - use it freely for any project.
+Code: MIT (see `LICENSE`). Notes in `_notes/`: © Jack Heseltine, CC BY-NC 4.0.
