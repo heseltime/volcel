@@ -900,48 +900,6 @@ body.garden {
   }
 }
 
-/* Sketches: inline SVG line drawings (see README, "Sketches"). Lines follow
-   the text colour, the one accent is the light. */
-:root {
-  --sketch-ink: #254756;
-  --sketch-light: #8fd61a;
-}
-
-[data-theme="dark"] {
-  --sketch-ink: #c4d3da;
-  --sketch-light: #b6f23f;
-}
-
-.content figure.sketch {
-  margin: 1.5em 0;
-  color: var(--sketch-ink);
-}
-
-.content figure.sketch svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.content figure.sketch .sketch-light {
-  fill: var(--sketch-light);
-}
-
-.content figure.sketch .sketch-light-line {
-  stroke: var(--sketch-light);
-}
-
-.content figure.sketch figcaption {
-  font-size: 13px;
-  line-height: 18px;
-  color: var(--muted);
-}
-
-.content figure.sketch figcaption {
-  margin-top: 6px;
-  text-align: center;
-}
-
 /* Light / dark switch, top right of the bar: a moon in light mode, a sun in dark. */
 .topbar .theme-toggle {
   margin-left: auto;
