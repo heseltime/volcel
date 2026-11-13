@@ -93,6 +93,20 @@
   const fmtDate = d => d ? new Date(d + "T00:00:00Z").toLocaleDateString("en-GB",
     { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "";
 
+  const TORTE_ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 4.2 19.8 16.5M4.2 7.5l12.3 12.3M16.5 4.2 4.2 16.5M19.8 7.5 7.5 19.8"/></svg>';
+
+  function torteButton(label, onClick) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "lattice-torte";
+    b.tabIndex = -1;
+    b.title = label;
+    b.setAttribute("aria-label", label);
+    b.innerHTML = TORTE_ICON;
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
   function latticeView(el) {
     if (!el) return;
     const rows = notes.slice()
@@ -122,6 +136,8 @@
       a.textContent = topicLabel(t);
       a.title = t.title;
       cell.appendChild(a);
+      cell.appendChild(torteButton(t.label + ": show this topic on the torte",
+        () => Garden.openTorte && Garden.openTorte(null, t.url)));
       head.appendChild(cell);
     });
     grid.appendChild(head);
@@ -138,6 +154,8 @@
       a.href = n.url;
       a.textContent = (n.topic && n.emoji ? n.emoji + " " : "") + n.title;
       name.appendChild(a);
+      name.appendChild(torteButton(n.title + ": show this note on the torte",
+        () => Garden.openTorte && Garden.openTorte(n.url, null)));
       row.appendChild(name);
 
       const date = document.createElement("span");
@@ -156,16 +174,68 @@
         const cell = document.createElement("span");
         cell.className = "lattice-cell" + (depth === null ? "" : depth === 2 ? " is-far" : " is-near");
         cell.setAttribute("role", "cell");
-        if (depth !== null) {
-          cell.title = depth === 0 ? n.title + " is this topic"
-            : depth === 1 ? t.title + " links to " + n.title : n.title + " is two steps from " + t.title;
-          cell.setAttribute("aria-label", cell.title);
-        }
+        const what = depth === null ? "no link yet" : depth === 0 ? n.title + " is this topic"
+          : depth === 1 ? t.title + " links to " + n.title : n.title + " is two steps from " + t.title;
+        const hit = document.createElement("button");
+        hit.type = "button";
+        hit.className = "lattice-hit";
+        hit.title = what + " · see it on the torte";
+        hit.setAttribute("aria-label", n.title + " × " + t.label + ": " + what + ". Show on the torte.");
+        hit.tabIndex = -1;           // the grid is one tab stop; arrows move inside it
+        hit.addEventListener("click", () => Garden.openTorte && Garden.openTorte(n.url, t.url));
+        cell.appendChild(hit);
         row.appendChild(cell);
       });
       grid.appendChild(row);
     });
     el.replaceChildren(grid);
+    keyboard(grid);
+  }
+
+  // One tab stop for the whole lattice. Arrows move between crossings,
+  // Home/End jump to the first/last topic, Enter or Space opens the torte there.
+  function keyboard(grid) {
+    const rows = Array.from(grid.querySelectorAll(".lattice-row:not(.lattice-head)"));
+    if (!rows.length || !topics.length) return;
+    const heads = Array.from(grid.querySelectorAll(".lattice-head .lattice-torte"));
+    // r = -1: the topic headings; c = -1: the note names
+    const target = (r, c) => r < 0 ? heads[c]
+      : c < 0 ? rows[r].querySelector(".lattice-torte") : rows[r].querySelectorAll(".lattice-hit")[c];
+    let r = 0, c = 0;
+    grid.tabIndex = 0;
+    grid.setAttribute("aria-label", "All notes as a lattice. Arrow keys move between crossings, note names (left) and topics (top); Enter shows it on the torte.");
+    const say = Object.assign(document.createElement("span"), { className: "lattice-say" });
+    say.setAttribute("aria-live", "polite");
+    grid.appendChild(say);
+    function clear() { grid.querySelectorAll(".is-active").forEach(h => h.classList.remove("is-active")); }
+    function show() {
+      clear();
+      const h = target(r, c);
+      h.classList.add("is-active");
+      say.textContent = h.getAttribute("aria-label");
+      h.scrollIntoView({ block: "nearest" });
+    }
+    grid.addEventListener("focus", show);
+    grid.addEventListener("blur", clear);
+    grid.addEventListener("keydown", e => {
+      const moves = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] };
+      if (moves[e.key]) {
+        e.preventDefault();
+        r = Math.min(rows.length - 1, Math.max(-1, r + moves[e.key][0]));
+        c = Math.min(topics.length - 1, Math.max(-1, c + moves[e.key][1]));
+        if (r < 0 && c < 0) c = 0;           // no corner cell
+        show();
+      } else if (e.key === "Home" || e.key === "End") {
+        e.preventDefault();
+        c = e.key === "Home" ? (r < 0 ? 0 : -1) : topics.length - 1;
+        show();
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        target(r, c).click();
+      }
+    });
+    rows.forEach((row, ri) => row.querySelectorAll(".lattice-hit").forEach((h, ci) =>
+      h.addEventListener("click", () => { r = ri; c = ci; })));
   }
 
   // (3) The current thread under the top bar: one tick per open pane, marked
@@ -194,7 +264,15 @@
     });
   }
 
-  window.Garden = Object.assign(window.Garden || {}, { crossings, latticeView, threadLine });
+  // The lattice itself, for other views (torte.js).
+  function latticeData() {
+    const depth = (t, n) => t.key === n.key ? 0 : (reach.get(t.key).get(n.key) || null);
+    const rows = notes.slice()
+      .sort((a, b) => (b.date || "").localeCompare(a.date || "") || a.title.localeCompare(b.title));
+    return { notes: rows, topics, depth, fmtDate };
+  }
+
+  window.Garden = Object.assign(window.Garden || {}, { crossings, latticeView, threadLine, latticeData });
 
   function init() {
     document.querySelectorAll(".stack > .pane > .pane-scroll").forEach(crossings);

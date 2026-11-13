@@ -7,6 +7,7 @@
 <script>
   window.GARDEN = {
     base: {{ site.baseurl | default: "" | jsonify }},
+    torte: { max: {{ site.torte.max_notes | default: 21 }}, maxSmall: {{ site.torte.max_notes_small | default: 12 }} },
     privateMsg: {{ site.privatelinks.msg | default: "This note hasn't been published yet." | jsonify }},
     notes: [
       {%- for note in site.notes -%}

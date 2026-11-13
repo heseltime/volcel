@@ -265,6 +265,16 @@
     open(pane, id, new URL(a.href, location.href).hash.slice(1));
   });
 
+  // For other views (torte.js): continue the current thread with a note.
+  window.Garden = Object.assign(window.Garden || {}, {
+    openNote(href) {
+      const id = idFor(href);
+      if (!id || !wide.matches) { location.href = href; return; }
+      const list = panes();
+      open(list[list.length - 1], id);
+    },
+  });
+
   window.addEventListener("popstate", () => restore(idsFromUrl()));
   stack.addEventListener("scroll", () => requestAnimationFrame(layout), { passive: true });
   window.addEventListener("resize", layout);

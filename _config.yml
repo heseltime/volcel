@@ -48,6 +48,12 @@ ie_css: "/assets/css/ie-target.css"
 # Ground behind the panes: trellis | lattice-dots | dawn | paper | plain
 background: paper
 
+# Torte view: how many notes it shows (the newest; the one you came from is
+# always added). Older notes stay in All notes.
+torte:
+  max_notes: 21        # wide screens
+  max_notes_small: 12  # phones
+
 # The sun menu (top left) offers this site and, if set, a parent site.
 parent_site:
   title: "heseltime"

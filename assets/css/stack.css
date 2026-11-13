@@ -948,8 +948,15 @@ body.bg-paper {
 }
 
 /* Light / dark switch, top right of the bar: a moon in light mode, a sun in dark. */
-.topbar .theme-toggle {
+.nav-actions {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topbar .torte-toggle,
+.topbar .theme-toggle {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -957,16 +964,29 @@ body.bg-paper {
   flex: 0 0 auto;
 }
 
+.topbar .torte-toggle,
+.topbar .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.topbar .torte-toggle:hover,
 .topbar .theme-toggle:hover {
   background: var(--active);
   color: var(--brand);
 }
 
+.topbar .torte-toggle:focus-visible,
 .topbar .theme-toggle:focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
+.topbar .torte-toggle svg,
 .topbar .theme-toggle svg {
   width: 20px;
   height: 20px;
@@ -994,4 +1014,386 @@ body.bg-paper {
 .pane-scroll .content i {
   font-size: inherit;
   color: inherit;
+}
+
+/* ---- Torte view (torte.js): the lattice as a flat Linzer torte ---------- */
+:root {
+  --torte-crust: #e2b06d;
+  --torte-dough: #efc78a;
+  --torte-dough-hot: #f7dcae;
+  --torte-jam: #a3203b;
+  --torte-jam-hi: #c22e47;
+  --torte-jam-lo: #7c1027;
+  --torte-ground: #fafafc;
+}
+
+[data-theme="dark"] {
+  --torte-crust: #b98547;
+  --torte-dough: #d1a368;
+  --torte-dough-hot: #e9c48f;
+  --torte-jam: #8c1a31;
+  --torte-jam-hi: #c22e47;
+  --torte-jam-lo: #5c0a1c;
+  --torte-ground: #141416;
+}
+
+html.torte-open,
+html.torte-open body {
+  overflow: hidden;
+}
+
+/* Full screen: the torte fills the window, title and close float on top. */
+.torte {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--torte-ground);
+  font-family: var(--font);
+  color: var(--text);
+}
+
+.torte[hidden] {
+  display: none;
+}
+
+.torte-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+}
+
+.torte-head h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--title);
+}
+
+.torte-close {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--title);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.torte-close:hover,
+.torte-close:focus-visible {
+  background: var(--active);
+  outline: none;
+}
+
+.torte-figure {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 0 16px;
+}
+
+.torte-svg {
+  display: block;
+  width: min(100%, calc(100vh - 140px));
+  height: auto;
+  max-height: 100%;
+}
+
+/* Flat: solid colours, thin jam-coloured gaps between strips, no shading. */
+.torte-crust { fill: var(--torte-crust); }
+.torte-jam { fill: var(--torte-jam); }
+
+.torte-strip {
+  fill: var(--torte-dough);
+  stroke: var(--torte-jam);
+  stroke-width: 1.2;
+  cursor: pointer;
+  transition: fill 0.12s, opacity 0.12s;
+}
+
+.torte-svg.is-hovering .torte-strip { opacity: 0.55; }
+.torte-svg.is-hovering .torte-strip.is-hot { opacity: 1; fill: var(--torte-dough-hot); }
+
+.torte-drop { fill: var(--torte-jam-hi); pointer-events: none; transition: opacity 0.12s; }
+.torte-drop.is-far { fill: var(--torte-jam-lo); }
+.torte-drop.is-self { fill: none; stroke: var(--torte-jam-hi); stroke-width: 2; }
+.torte-svg.is-hovering .torte-drop:not(.is-hot) { opacity: 0.25; }
+
+/* The label at the pointer. */
+.torte-label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  max-width: min(22rem, calc(100vw - 24px));
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--title);
+  color: var(--bg);
+  font-size: 13px;
+  line-height: 18px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.torte-label.is-on {
+  opacity: 1;
+}
+
+.torte-label strong {
+  display: block;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.torte-label span {
+  opacity: 0.75;
+}
+
+.torte-key {
+  margin: 0;
+  padding: 10px 16px 16px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--muted);
+}
+
+.torte-key-drop {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin: 0 4px 0 10px;
+  border-radius: 50%;
+  vertical-align: -1px;
+  background: var(--torte-jam-hi);
+}
+
+.torte-key-drop.is-far {
+  width: 6px;
+  height: 6px;
+  background: var(--torte-jam-lo);
+}
+
+.torte-key-sep {
+  margin: 0 6px;
+}
+
+/* screen-reader / keyboard list, and the live region */
+.torte-list,
+.torte-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Laying the lattice: strips roll out one after another, then the jam drops. */
+.torte.is-shown .torte-strip {
+  transform-box: fill-box;
+  animation: torte-lay 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.torte.is-shown .torte-note { transform-origin: 0% 50%; }
+.torte.is-shown .torte-topic { transform-origin: 50% 0%; animation-name: torte-lay-y; }
+.torte.is-shown .torte-over { animation-name: torte-fade; }
+
+.torte.is-shown .torte-drop {
+  animation: torte-fade 0.35s ease-out both;
+  animation-delay: calc(450ms + var(--i, 0) * 50ms);
+}
+
+@keyframes torte-lay { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes torte-lay-y { from { transform: scaleY(0); } to { transform: none; } }
+@keyframes torte-fade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .torte.is-shown .torte-strip,
+  .torte.is-shown .torte-drop {
+    animation: none;
+  }
+}
+
+/* Footer: torte and theme buttons, bottom left. */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 2px;
+  order: -1;
+}
+
+.footer-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.footer-actions button:hover,
+.footer-actions button:focus-visible {
+  background: var(--active);
+  color: var(--brand);
+  outline: none;
+}
+
+.footer-actions svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* Lattice cells are buttons: click a crossing to see it on the torte. */
+.lattice-hit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.lattice-hit:hover,
+.lattice-hit.is-active {
+  background: radial-gradient(circle, var(--active) 0 14px, transparent 15px);
+  outline: none;
+}
+
+/* The crossing you came from, marked on the torte. */
+.torte-mark {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 2.2;
+  pointer-events: none;
+}
+
+.torte-mark-outer {
+  fill: none;
+  stroke: var(--title);
+  stroke-width: 1.2;
+  pointer-events: none;
+}
+
+.torte.is-shown .torte-markgroup {
+  animation: torte-fade 0.3s ease-out both, torte-pulse 1.6s ease-in-out 0.9s 2;
+  animation-delay: 700ms, 900ms;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes torte-pulse {
+  50% { transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .torte.is-shown .torte-markgroup { animation: none; }
+}
+
+.lattice-cell::after {
+  pointer-events: none;
+}
+
+.lattice:focus {
+  outline: none;
+}
+
+.lattice:focus-visible .lattice-hit.is-active {
+  box-shadow: 0 0 0 2px var(--brand);
+}
+
+.lattice-say {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.torte-figure:focus {
+  outline: none;
+}
+
+/* Small torte buttons: after each note name, under each topic heading. */
+.lattice-torte {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.lattice-row:hover .lattice-torte,
+.lattice-topic:hover .lattice-torte,
+.lattice-torte.is-active,
+.lattice-torte:hover {
+  opacity: 1;
+}
+
+.lattice-torte:hover,
+.lattice-torte.is-active {
+  background: var(--active);
+  color: var(--brand);
+}
+
+.lattice:focus-visible .lattice-torte.is-active {
+  box-shadow: 0 0 0 2px var(--brand);
+}
+
+.lattice-topic {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.lattice-topic .lattice-torte {
+  margin: 0;
+}
+
+@media (hover: none) {
+  .lattice-torte {
+    opacity: 0.6;
+  }
+}
+
+.torte-more a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.torte-more a:hover {
+  text-decoration: underline;
 }

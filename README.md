@@ -25,6 +25,7 @@ The word fits in three ways. A *trellis* gives growth a direction without fixing
 - **The home page is the lattice:** every note, newest first, one column per topic, a dot where they cross.
 - **A thread line under the top bar** marks each open pane, blue where it crosses a topic.
 - **Links to this note** end every note, split into topics and other notes, with the sentence each link sits in.
+- **The torte.** The button next to the light/dark switch shows the whole lattice as the top of a Linzer torte: topics are pastry strips one way, notes the other, and a drop of redcurrant jam marks each crossing. Click a strip to open that note.
 
 Nothing is tagged by hand. All of it comes from the `[[links]]` between notes.
 
