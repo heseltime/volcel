@@ -1,0 +1,10 @@
+# Announcement posts for notes with `announce: true`, keyed by the note's URL.
+# .github/workflows/announce.yml adds entries; you can also edit by hand.
+#
+# /notes/some-note:
+#   bluesky: at://did:plc:…/app.bsky.feed.post/…   # AT URI, used to load replies
+#   bluesky_url: https://bsky.app/profile/…/post/…  # link readers reply on
+#   mastodon_id: "113…"                             # status id, used to load replies
+#   mastodon_url: https://mastodon.social/@…/113…   # link readers reply on
+#   hide:                                           # replies not to show
+#     - https://bsky.app/profile/…/post/…           # (post URL or AT URI)

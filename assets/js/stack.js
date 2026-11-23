@@ -84,6 +84,7 @@
       if (window.Garden && Garden.sidenotes) Garden.sidenotes(el);
     });
     if (window.Garden && Garden.crossings) Garden.crossings(scroll);
+    if (window.Garden && Garden.responses) Garden.responses(scroll);
   }
 
   function failed(pane, id) {

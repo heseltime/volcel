@@ -1397,3 +1397,170 @@ html.torte-open body {
 .torte-more a:hover {
   text-decoration: underline;
 }
+
+/* (6) Responses: replies to the note's Bluesky and Mastodon announcement
+   posts, under "Links to this note" (see assets/js/responses.js). */
+.links-section + .responses {
+  margin-top: 16px;
+}
+
+.responses-thread > summary {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+
+.responses-thread > summary:hover {
+  text-decoration: underline;
+}
+
+.responses-actions {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+}
+
+.responses-actions a {
+  color: var(--brand);
+}
+
+.responses-status {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.responses-replies {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.responses-replies .responses-replies {
+  margin: 10px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--rule);
+}
+
+/* Past three levels, keep the thread from walking off a narrow pane. */
+.responses-replies .responses-replies .responses-replies .responses-replies {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.response {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+
+.response + .response {
+  margin-top: 8px;
+}
+
+.responses-replies .responses-replies .response {
+  box-shadow: none;
+  padding: 0;
+  background: transparent;
+}
+
+.response-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--muted);
+}
+
+.response-avatar {
+  display: inline-block;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--border);
+}
+
+.response-author {
+  color: var(--title);
+  text-decoration: none;
+  min-width: 0;
+}
+
+.response-name {
+  font-weight: 600;
+}
+
+.response-handle,
+.response-date,
+.response-via {
+  color: var(--muted);
+}
+
+.response-date {
+  text-decoration: none;
+}
+
+/* style.css marks external links with an arrow; in a reply header every
+   link is external, so the arrows would only add noise. */
+.response-head a[href]::after {
+  content: none;
+}
+
+.response-author:hover .response-name,
+.response-date:hover {
+  color: var(--brand);
+}
+
+.response-via {
+  margin-left: auto;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.response-text {
+  margin: 6px 0 0;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+div.response-text {
+  white-space: normal;
+}
+
+.response-text p {
+  margin: 0 0 6px;
+}
+
+.response-text p:last-child {
+  margin-bottom: 0;
+}
+
+.response-text a {
+  color: var(--brand);
+}
+
+.response-media {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.response-cw {
+  margin-top: 6px;
+}
+
+.response-cw > summary {
+  cursor: pointer;
+  color: var(--muted);
+}

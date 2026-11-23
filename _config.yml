@@ -63,6 +63,20 @@ parent_site:
 
 # Menu: the top bar lists notes with `topic: true` (see _includes/Nav.html).
 
+# Responses: notes with `announce: true` end with replies to their Bluesky and
+# Mastodon announcement posts (ids in _data/social.yml, written by
+# .github/workflows/announce.yml) and a reply-by-email link. Leave a value
+# empty to switch that part off. The address is split so scrapers miss it.
+responses:
+  email:
+    user: ""             # e.g. volcel
+    domain: ""           # e.g. example.org
+  bluesky:
+    handle: ""           # e.g. volcel.bsky.social
+  mastodon:
+    instance: ""         # e.g. mastodon.social
+    user: ""             # e.g. volcel
+
 # Footer
 footer:
   copyright: "Jack Heseltine. Contents under CC-BY-NC"

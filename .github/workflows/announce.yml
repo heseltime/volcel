@@ -1,0 +1,65 @@
+# Posts notes marked `announce: true` to the volcel Bluesky and Mastodon
+# accounts and records the posts in _data/social.yml (see
+# .github/scripts/announce.mjs). Replies to those posts show up under the note.
+#
+# Repository secrets: BLUESKY_HANDLE, BLUESKY_APP_PASSWORD, MASTODON_INSTANCE,
+# MASTODON_TOKEN (scope write:statuses). A platform without secrets is skipped.
+name: Announce notes
+
+on:
+  push:
+    branches: [main]
+    paths: ["_notes/Public/**"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only print what would be posted"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # commit _data/social.yml
+  pages: write      # request a Pages rebuild afterwards
+
+concurrency:
+  group: announce
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install js-yaml
+        run: npm install --no-save --no-package-lock --prefix .github/scripts js-yaml@4.1.0
+
+      - name: Announce
+        run: node .github/scripts/announce.mjs
+        env:
+          DRY_RUN: ${{ inputs.dry_run == true }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+
+      # Runs even if one post failed, so the posts that worked are kept.
+      - name: Commit post ids
+        if: always() && inputs.dry_run != true
+        run: |
+          git add _data/social.yml
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record announcement posts"
+          git pull --rebase
+          git push
+          # Pushes made with GITHUB_TOKEN may not start a Pages build on their own.
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null || true
+        env:
+          GH_TOKEN: ${{ github.token }}

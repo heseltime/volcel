@@ -52,6 +52,23 @@ an external [[Label::https://example.com]] link, and a margin note.[^aside]
 
 To keep a note off the site, add `published: false`; the file stays in the repository. To keep it on your machine only, put it in `_notes/Private/`. Links to either show as plain text until the note is published.
 
+## Responses
+
+A note with `announce: true` in its front matter is posted to the volcel Bluesky and Mastodon accounts when it reaches `main`, by `.github/workflows/announce.yml`. Replies to those posts appear at the foot of the note under **Responses**. They load in the reader's browser when the reader opens the list, so each pane stays quiet until then. A reply-by-email link sits next to them.
+
+```markdown
+---
+title: A Note
+announce: true
+description: One or two sentences for link previews and the post.  # optional
+announce_text: Text for the post instead of the description.       # optional
+---
+```
+
+- The posts are recorded in `_data/social.yml`, keyed by the note's URL. The Action commits that file, so `git pull` after an announcement. To link a post you made by hand, add an entry yourself.
+- To hide a reply, add its post URL or AT URI to `hide:` under the note in `_data/social.yml`. Replies you hide in the Bluesky app are left out on their own.
+- The accounts and the email address are set under `responses:` in `_config.yml`. The workflow needs the repository secrets `BLUESKY_HANDLE`, `BLUESKY_APP_PASSWORD`, `MASTODON_INSTANCE` and `MASTODON_TOKEN` (scope `write:statuses`). Run it by hand with "dry run" to see what it would post.
+
 ## Preview
 
 ```bash

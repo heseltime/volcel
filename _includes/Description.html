@@ -1,0 +1,20 @@
+{%- comment -%}
+  Sets `page_description` for link previews: `description:` from front matter,
+  else the opening of the note as plain text, with footnote markers, the
+  footnote list and [[wiki link]] brackets taken out ([[Note\|label]] reads as
+  "label", [[Label::https://…]] as "Label"). Falls back to the site description.
+{%- endcomment -%}
+{%- if page.description -%}
+  {%- assign page_description = page.description | strip_html | normalize_whitespace -%}
+{%- elsif page.content and page.content != "" -%}
+  {%- assign html = page.content | markdownify | split: '<div class="footnotes"' | first -%}
+  {%- assign sups = html | split: "<sup" -%}
+  {%- capture html -%}{%- for s in sups -%}{%- if forloop.first -%}{{ s }}{%- else -%}{%- assign after = s | split: "</sup>" -%}{%- for a in after offset: 1 -%}{{ a }}{%- endfor -%}{%- endif -%}{%- endfor -%}{%- endcapture -%}
+  {%- assign text = html | strip_html | replace: "\|", "|" -%}
+  {%- assign parts = text | split: "[[" -%}
+  {%- capture text -%}{%- for part in parts -%}{%- if forloop.first -%}{{ part }}{%- continue -%}{%- endif -%}{%- assign inner = part | split: "]]" | first -%}{%- if inner contains "::" -%}{%- assign label = inner | split: "::" | first -%}{%- elsif inner contains "|" -%}{%- assign label = inner | split: "|" | last -%}{%- else -%}{%- assign label = inner | split: "#" | first -%}{%- endif -%}{{ label }}{{ part | remove_first: inner | remove_first: "]]" }}{%- endfor -%}{%- endcapture -%}
+  {%- assign page_description = text | normalize_whitespace | truncate: 200 -%}
+{%- endif -%}
+{%- if page_description == nil or page_description == "" -%}
+  {%- assign page_description = site.description | default: "" -%}
+{%- endif -%}

@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
     <script>
       // Set the theme before anything paints, so dark mode doesn't flash light.
       (function () {
@@ -13,10 +14,13 @@
     </script>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="{{ site.title | default: site.heading }}" property="og:site_name" />
-    <meta content="{{ site.description | default: 'A Jekyll Garden site' }}" property="og:description">
+    {%- include Description.html -%}
+    <meta name="description" content="{{ page_description | escape }}">
+    <meta content="{{ page_description | escape }}" property="og:description">
     <meta content="{{ site.url }}/about/" property="article:author">
-    {%- if site.og_image -%}
-    <meta property="og:image" content="{{ site.baseurl }}{{ site.og_image }}">
+    {%- assign og_image = site.og_image | default: site.apple_touch_icon -%}
+    {%- if og_image -%}
+    <meta property="og:image" content="{{ site.baseurl }}{{ og_image }}">
     {%- endif -%}
     {%- if page.title -%}
     <meta content="{{ page.title }}" property="og:title">
@@ -25,6 +29,17 @@
     {%- else -%}
     <meta content="website" property="og:type">
     <meta content="{{ site.url }}{{ page.url }}" property="og:url">
+    {%- endif -%}
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title | default: site.title | escape }}">
+    <meta name="twitter:description" content="{{ page_description | escape }}">
+    {%- assign masto = site.responses.mastodon -%}
+    {%- if masto.instance and masto.instance != "" and masto.user and masto.user != "" -%}
+    <meta name="fediverse:creator" content="@{{ masto.user }}@{{ masto.instance }}">
+    <link rel="me" href="https://{{ masto.instance }}/@{{ masto.user }}">
+    {%- endif -%}
+    {%- if site.responses.bluesky.handle and site.responses.bluesky.handle != "" -%}
+    <link rel="me" href="https://bsky.app/profile/{{ site.responses.bluesky.handle }}">
     {%- endif -%}
 
     <title>{%- if page.title -%}{{ page.title }} - {%- endif -%}{{ site.heading }}</title>
@@ -81,6 +96,7 @@
                 {%- if site.preferences.backlinks.enabled -%}
                 {%- include Backlinks.html -%}
                 {%- endif -%}
+                {%- include Responses.html -%}
             {%- else -%}
                 <!-- Static page -->
                 <h1>{{ page.title }}</h1>
@@ -94,6 +110,7 @@
     <script src="{{ site.baseurl }}/assets/js/wikilinks.js"></script>
     <script src="{{ site.baseurl }}/assets/js/sidenotes.js"></script>
     <script src="{{ site.baseurl }}/assets/js/lattice.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/responses.js"></script>
     <script src="{{ site.baseurl }}/assets/js/stack.js"></script>
     <script src="{{ site.baseurl }}/assets/js/torte.js"></script>
 </body>

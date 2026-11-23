@@ -1,0 +1,40 @@
+{%- comment -%}
+  "Responses": for notes with `announce: true`. Replies to the note's Bluesky
+  and Mastodon announcement posts (ids in _data/social.yml) load in the
+  browser when the reader opens the block (assets/js/responses.js), plus
+  links to reply there or by email. Rendered at build time, so it also shows
+  up in panes opened by stack.js, which drops scripts.
+{%- endcomment -%}
+{%- if page.announce -%}
+{%- assign social = site.data.social[page.url] -%}
+{%- assign email = site.responses.email -%}
+{%- assign has_email = false -%}
+{%- if email.user and email.user != "" and email.domain and email.domain != "" -%}{%- assign has_email = true -%}{%- endif -%}
+{%- assign masto_instance = "" -%}
+{%- if social.mastodon_id and social.mastodon_url -%}
+  {%- assign masto_instance = social.mastodon_url | split: "//" | last | split: "/" | first -%}
+{%- endif -%}
+{%- if social.bluesky or masto_instance != "" or has_email -%}
+<section class="links-section responses"
+  {%- if social.bluesky %} data-bsky="{{ social.bluesky | escape }}"{% endif -%}
+  {%- if masto_instance != "" %} data-masto-instance="{{ masto_instance | escape }}" data-masto-id="{{ social.mastodon_id | escape }}"{% endif -%}
+  {%- if social.hide %} data-hide="{{ social.hide | jsonify | escape }}"{% endif %}>
+    <h6>Responses</h6>
+    {%- if social.bluesky or masto_instance != "" -%}
+    <details class="responses-thread">
+        <summary><span class="responses-count">Show replies</span></summary>
+        <div class="responses-list" aria-live="polite"></div>
+    </details>
+    {%- endif -%}
+    <p class="responses-actions">Reply
+        {%- if social.bluesky_url %} <a href="{{ social.bluesky_url }}" rel="noopener">on Bluesky</a>{% endif -%}
+        {%- if social.bluesky_url and masto_instance != "" %} ·{% endif -%}
+        {%- if masto_instance != "" %} <a href="{{ social.mastodon_url }}" rel="noopener">on Mastodon</a>{% endif -%}
+        {%- if has_email -%}
+        {%- if social.bluesky_url or masto_instance != "" %} ·{% endif %}
+        <span class="responses-email" data-user="{{ email.user | escape }}" data-domain="{{ email.domain | escape }}" data-subject="Re: {{ page.title | escape }}" data-url="{{ site.url }}{{ page.url }}">by email to {{ email.user }} at {{ email.domain }}</span>
+        {%- endif -%}
+    </p>
+</section>
+{%- endif -%}
+{%- endif -%}
