@@ -54,6 +54,31 @@ body.garden {
   margin: 0 0 16px;
 }
 
+/* A note that opens with its own `# heading` gets it as a subtitle under the
+   title: smaller, italic, with a short lime stroke, so it doesn't compete. */
+.pane-scroll .content > h1:first-child {
+  position: relative;
+  font-size: 23px;
+  line-height: 30px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.005em;
+  color: var(--title);
+  margin: 4px 0 24px;
+  padding-bottom: 12px;
+}
+
+.pane-scroll .content > h1:first-child::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--ground-spark);
+}
+
 .pane-scroll .content h2 {
   font-size: 25px;
   line-height: 31px;

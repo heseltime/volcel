@@ -7,7 +7,7 @@ date: 2026-11-13
 
 What I care about most these days doesn't do well on Instagram or LinkedIn. It is quiet. On a personal level, it's church music and crib building, it's choir and theatre, it's the village where I grew up. Life slow and meditative, reflective now, as this preoccupation is seen as more and more important.
 
-I'm a software engineer at Dynatrace, working in observability: making large, busy systems legible to the people who run them, by way of a "Semantic" Dictionary that operationalizes conventions by way of modelling and pipelining. My background is literature and film in New York, though, as well as the software engineering and AI in Linz, Austria and a current turn described here. [^road]
+I'm a software engineer at Dynatrace, working in observability: making large, busy systems legible to the people who run them, by way of a "Semantic" Dictionary that operationalizes conventions in models, (software) pipelines, and the like. My background is literature and film in New York, though, as well as the software engineering and AI in Linz, Austria and a current turn described here. [^road]
 
 ## Why "volcel"
 
@@ -38,4 +38,4 @@ The template code for this blog is available by the way, as [[Linzer Lattice::ht
 [^jesuits]: Apostolic order, spiritually founded life "in the world" - [[their charism::https://www.jesuits.org]] is attractive to me. And yes, we (coming from secular lives) are leaving the beaten path here, I know and don't mind.
 [^minster]: The monastery appears in a charter of 909 as *Trunseo*. It was probably destroyed in the Magyar raids around 920, and after 955 the place was rebuilt as a parish rather than an abbey.
 [^lewis]: Published in 1945. The title answers William Blake's *The Marriage of Heaven and Hell*: Lewis's point is that the two can't be married after all.
-[^heiser]: I am currently reading [[Michael Heiser:https://en.wikipedia.org/wiki/Michael_S._Heiser]], especially The Unseen Realm and am attracted the notion of the Divine Council and his other topics as well as the underlying, revealed maybe, spiritual reality that is often side-stepped in theological situations.
+[^heiser]: I am currently reading [[Michael Heiser::https://en.wikipedia.org/wiki/Michael_S._Heiser]], especially The Unseen Realm and am attracted the notion of the Divine Council and his other topics as well as the underlying, revealed maybe, spiritual reality that is often side-stepped in theological situations.
