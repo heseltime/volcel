@@ -7,7 +7,7 @@ date: 2026-11-13
 
 What I care about most these days doesn't do well on Instagram or LinkedIn. It is quiet. On a personal level, it's church music and crib building, it's choir and theatre, it's the village where I grew up. Life slow and meditative, reflective now, as this preoccupation is seen as more and more important.
 
-I'm a software engineer at Dynatrace, working in observability: making large, busy systems legible to the people who run them, by way of a "Semantic" Dictionary that operationalizes conventions in models, (software) pipelines, and the like. My background is literature and film in New York, though, as well as the software engineering and AI in Linz, Austria and a current turn described here. [^road]
+I'm a software engineer at Dynatrace, working in observability: making large, busy systems legible to the people who run them, by way of a "Semantic" Dictionary that operationalizes conventions in models, (software) pipelines, and the like. My background is literature and film in New York, though, as well as the software engineering and AI in Linz, Austria and a current turn described here.[^road]
 
 ## Why "volcel"
 
