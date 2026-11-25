@@ -17,7 +17,7 @@ These notes don't sort into one hierarchy, so the site is drawn as a **lattice**
  thread  ─────────○────────────────●─────
 ```
 
-The word fits in three ways. A *trellis* gives growth a direction without fixing its form. A *grille* is the lattice screen of an enclosed monastery, something you speak through that also marks a boundary, as unpublished notes do here. And an *order*, in mathematics, is a lattice where any two elements meet and join. The note [A Lattice, Not a Garden](https://heseltime.github.io/volcel/notes/a-lattice-not-a-garden) says more.
+The word fits in three ways. A *trellis* gives growth a direction without fixing its form. A *grille* is the lattice screen of an enclosed monastery, something you speak through that also marks a boundary, as unpublished notes do here. And an *order*, in mathematics, is a lattice where any two elements meet and join. The note [Stacked Notes](https://heseltime.github.io/volcel/notes/stacked-notes#a-lattice-not-a-garden) says more.
 
 ## How the site shows it
 

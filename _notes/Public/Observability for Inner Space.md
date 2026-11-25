@@ -20,7 +20,7 @@ Open questions I want to keep coming back to:
 - Can a tool help with simplifying, or does every tool eventually want more of your attention?
 - What is the smallest useful "dashboard" for a day?
 
-The way these notes are laid out is part of the experiment: one thought opening the next to its right, instead of a single long essay. See [[Stacked Notes]] for how that works, and [[Why Books Don't Work]] for why it might be a better way to think in public.[^flow]
+The way these notes are laid out is part of the experiment: one thought opening the next to its right, instead of a single long essay. See [[Stacked Notes]] for how that works, and for why it might be a better way to think in public.[^flow]
 
 [^legible]: The phrase I keep returning to from work is "making a system legible to itself." I suspect that is a decent description of prayer, too.
 [^flow]: This note will grow sideways rather than downwards: new notes linked from here, not more paragraphs added here.
